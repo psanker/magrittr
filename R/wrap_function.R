@@ -16,11 +16,25 @@
 # @return a function of a single argument, named `.`.
 wrap_function <- function(body, pipe, env)
 {
- 
+
   if (is_tee(pipe)) {
     body <- call("{", body, quote(.))
   } else if (is_dollar(pipe)) {
     body <- substitute(with(., b), list(b = body))
-  } 
+  } else if (is_maybe_pipe(pipe)) {
+    body <- wrap_maybe_body(body)
+  }
   eval(call("function", as.pairlist(alist(.=)), body), env, env)
+}
+
+wrap_maybe_body <- function(body) {
+  bquote({
+    if (is_nothing(.)) {
+      return(.)
+    }
+
+    . <- unwrap(.)
+
+    tryCatch(just(.(body)), error = function(e) nothing(e))
+  })
 }

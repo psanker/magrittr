@@ -7,7 +7,8 @@ is_pipe <- function(pipe)
   identical(pipe, quote(`%>%`))   ||
   identical(pipe, quote(`%T>%`))  ||
   identical(pipe, quote(`%<>%`))  ||
-  identical(pipe, quote(`%$%`))
+  identical(pipe, quote(`%$%`))   ||
+  identical(pipe, quote(`%?>%`))
 }
 
 # Determine whether an non-evaluated call is parenthesized.
@@ -45,6 +46,16 @@ is_dollar <- function(pipe)
 is_compound_pipe <- function(pipe)
 {
   identical(pipe, quote(`%<>%`))
+}
+
+# Check whether a pipe is the Maybe Monad pipe
+#
+# @param pipe A (quoted) pipe
+# @return logical - TRUE is pipe is a Maybe Monad,
+#   otherwise FALSE
+is_maybe_pipe <- function(pipe)
+{
+  identical(pipe, quote(`%?>%`))
 }
 
 # Check whether expression is enclosed in curly braces.
