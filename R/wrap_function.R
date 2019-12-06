@@ -35,6 +35,6 @@ wrap_maybe_body <- function(body) {
 
     . <- unwrap(.)
 
-    tryCatch(just(.(body)), error = function(e) nothing(e))
+    tryCatch(just(.(body)), error = function(e) nothing(e$message))
   })
 }
