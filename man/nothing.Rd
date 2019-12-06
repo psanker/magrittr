@@ -4,8 +4,30 @@
 \alias{nothing}
 \title{Nothing}
 \usage{
-nothing(x = NULL)
+nothing(x = NULL, message = NULL)
+}
+\arguments{
+\item{x}{Any R object, usually a Maybe object.}
+
+\item{message}{An error message. Purposefully a different parameter from x
+so that \code{just(a) \%?>\% nothing()} is \code{nothing()}}
+}
+\value{
+A \code{nothing} object
 }
 \description{
-Nothing
+A Maybe object that contains nothing. If an error message is present,
+it will carry that error message, but that is it. \code{nothing()} also
+implements the join property of a monad, so \code{nothing(nothing(message = err))}
+will be \code{nothing(message = err)}.
+}
+\details{
+Oftentimes programmers will use \code{NULL} to indicate some form of failure.
+\code{nothing()} is \emph{not} the same thing as \code{NULL}. \code{just()} can contain \code{NULL},
+but by design \code{nothing()} cannot hold anything. This is important to note
+when \code{\link{unwrap}}ping values from a maybe pipe chain.
+
+\code{just(nothing())} will return \code{nothing()} as implemented in the
+MonadPlus typeclass. Similarly, \code{nothing(just(a))} will be \code{nothing()}. It's important
+to note that the content of \code{just()} will \emph{not} be treated as an error message.
 }

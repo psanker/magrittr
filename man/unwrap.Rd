@@ -10,8 +10,36 @@ unwrap(x, ...)
 
 \method{unwrap}{default}(x, ...)
 
-\method{unwrap}{maybe}(x, ...)
+\method{unwrap}{maybe}(x, .default, ...)
+}
+\arguments{
+\item{x}{Any R object, usually a Maybe object used during a maybe pipe chain}
+
+\item{.default}{The default value to use if \code{x} is \code{nothing()}. If
+\code{.default} is not defined and \code{x} is \code{nothing()}, an error will be thrown.}
+}
+\value{
+The unwrapped value or an error, depending on the function parameters
 }
 \description{
-Unwrap values from Maybe monad context
+After using a maybe pipe chain, it would be usefulto extract
+the resulting value from the chain. For \code{just()} Maybe objects,
+this is straightforward: use a \strong{regular} pipe (\code{\%>\%})
+to get the value. For \code{nothing()} objects, you need to define
+a default value using the \code{.default} parameter. You cannot unwrap
+a \code{nothing()} object without this defined, else an error will be thrown.
+}
+\details{
+Unwrapping a non-Maybe object just returns that object since no Maybe
+context is present.
+}
+\examples{
+1:5 \%?>\%
+  sum() \%>\%
+  unwrap()
+  
+"bad_file.csv" \%?>\%
+  read.csv() \%>\%
+  unwrap(.default = NULL)
+
 }

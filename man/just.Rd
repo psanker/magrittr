@@ -6,6 +6,13 @@
 \usage{
 just(x)
 }
+\arguments{
+\item{x}{Any R object}
+}
+\value{
+A Maybe object that contains \code{x}
+}
 \description{
-Just something
+Wraps any object in a safe setting. Moreover, \code{just()} implements
+the join functionality of a monad, so \code{just(just(a))} will be \code{just(a)}.
 }

@@ -14,24 +14,26 @@ lhs \%?>\% rhs
 \description{
 In a normal pipe sequence, failure using \code{stop()} or \code{rlang::abort()}
 will halt the entire sequence, failing quickly. Sometimes this is
-wanted, especially if all possible failing cases are understood.
+desired, especially if all possible failing cases are understood.
 However, composing a long chain of pipes together with the possibility
 of failure can lead to some confusing bugs.
 }
 \details{
-This pipe implements the "Maybe Monad," also known as "Optionals."
-The pipe wraps the content of \code{lhs} with a class called "maybe" which
-can either be Just <something> or Nothing. Implemented in R, this would
-be \code{just(lhs_value)} or \code{nothing()}.
-
-To be fully type-stable, the \code{rhs} has to be amended to accept "maybe"
+To be achieve this, the \code{rhs} has to be amended to accept "maybe"
 objects as inputs and handle their cases appropriately. Specifically,
 \code{rhs(nothing())} should return \code{nothing()}, while \code{rhs(just(lhs_value))}
 should return either \code{just(rhs_value)} or \code{nothing()}.
+
+It is permitted to pass in a normal R object as \code{lhs}, but it's
+preferable to wrap the \code{lhs} in \code{just()}. This is especially helpful
+if the start of a pipe chain \emph{can} fail. However, it's perfectly
+acceptable to ignore the use of \code{just()} for objects that cannot fail.
 }
 \examples{
 # loading a file without checking if the file exists
+\dontrun{
 file_path \%?>\%
   read.csv()
+}
 
 }

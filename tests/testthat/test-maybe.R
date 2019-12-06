@@ -6,8 +6,8 @@ test_that("Join rules are obeyed", {
 
   expect_identical(just(just(a)), just(a))
   expect_identical(nothing(just(a)), nothing())
-  expect_identical(just(nothing(msg)), nothing(msg))
-  expect_identical(nothing(nothing(msg)), nothing(msg))
+  expect_identical(just(nothing(message = msg)), nothing(message = msg))
+  expect_identical(nothing(nothing(message = msg)), nothing(message = msg))
 })
 
 test_that("Values are unwrapped correctly", {
@@ -35,10 +35,22 @@ test_that("Simple pipe behavior make sense", {
         dplyr::filter(mpg < 20)
   })
 
-  expect_true(is_nothing(output))
+  expect_true(is.nothing(output))
+})
+
+test_that("Composition of Maybe objects via maybe pipe makes sense", {
+  a <- 5
+  msg <- "Oops"
+  
+  expect_identical(just(a) %?>% nothing(), nothing())
+  expect_identical(nothing() %?>% just(), nothing())
+  expect_identical(just(a) %?>% just(), just(a))
+  expect_identical(nothing(msg) %?>% nothing(), nothing(msg))
 })
 
 test_that("Subtle behavior is maintained", {
-  expect_true(nothing() %>% is_nothing())
-  expect_identical(nothing() %?>% is_nothing(), nothing())
+  a <- 5
+  
+  expect_true(nothing() %>% is.nothing())
+  expect_identical(nothing() %?>% is.nothing(), nothing())
 })

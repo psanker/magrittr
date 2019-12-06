@@ -286,27 +286,29 @@ pipe <- function()
 #'
 #' In a normal pipe sequence, failure using `stop()` or `rlang::abort()`
 #' will halt the entire sequence, failing quickly. Sometimes this is
-#' wanted, especially if all possible failing cases are understood.
+#' desired, especially if all possible failing cases are understood.
 #' However, composing a long chain of pipes together with the possibility
 #' of failure can lead to some confusing bugs. 
 #'
-#' This pipe implements the "Maybe Monad," also known as "Optionals."
-#' The pipe wraps the content of `lhs` with a class called "maybe" which
-#' can either be Just <something> or Nothing. Implemented in R, this would
-#' be `just(lhs_value)` or `nothing()`.
-#'
-#' To be fully type-stable, the `rhs` has to be amended to accept "maybe"
+#' To be achieve this, the `rhs` has to be amended to accept "maybe"
 #' objects as inputs and handle their cases appropriately. Specifically,
 #' `rhs(nothing())` should return `nothing()`, while `rhs(just(lhs_value))`
 #' should return either `just(rhs_value)` or `nothing()`.
+#' 
+#' It is permitted to pass in a normal R object as `lhs`, but it's
+#' preferable to wrap the `lhs` in `just()`. This is especially helpful
+#' if the start of a pipe chain *can* fail. However, it's perfectly 
+#' acceptable to ignore the use of `just()` for objects that cannot fail.
 #'
 #' @param lhs A value or the magrittr placeholder.
 #' @param rhs A function call using the magrittr semantics.
 #'
 #' @examples
 #' # loading a file without checking if the file exists
+#' \dontrun{
 #' file_path %?>%
 #'   read.csv()
+#' }
 #'
 #' @rdname maybe
 #' @export
