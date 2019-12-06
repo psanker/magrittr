@@ -5,6 +5,9 @@ maybe_types <- list(
   nothing = "Nothing"
 )
 
+#' Just something
+#'
+#' @export
 just <- function(x) 
 {
   if (is.maybe(x)) {
@@ -17,6 +20,9 @@ just <- function(x)
   result
 }
 
+#' Nothing
+#'
+#' @export
 nothing <- function(x = NULL) 
 {
   if (is.maybe(x)) {
@@ -34,6 +40,7 @@ nothing <- function(x = NULL)
   result
 }
 
+#' @export
 is.maybe <- function(x) 
 {
   if (!inherits(x, "maybe")) {
@@ -47,11 +54,13 @@ is.maybe <- function(x)
   }
 }
 
+#' @export
 is_nothing <- function(x)
 {
   is.maybe(x) && identical(x[["type"]], maybe_types$nothing)
 }
 
+#' @export
 print.maybe <- function(x, ...) 
 {
   if (identical(x[["type"]], maybe_types$just)) {
@@ -65,21 +74,31 @@ print.maybe <- function(x, ...)
   }
 }
 
+#' Unwrap values from Maybe monad context
+#'
+#' @rdname unwrap
+#' @export
 unwrap <- function(x, ...) 
 {
   UseMethod("unwrap", x)
 }
 
+#' @rdname unwrap
+#' @export
 unwrap.default <- function(x, ...) 
 {
   x
 }
 
-unwrap.maybe <- function(x, .default) 
+#' @rdname unwrap
+#' @export
+unwrap.maybe <- function(x, ...) 
 {
+  dots <- list(...)
+  
   if (is_nothing(x)) {
-    if (!missing(.default)) {
-      .default 
+    if (".default" %in% names(dots)) {
+      dots[[".default"]] 
     } else {
       stop("Cannot unwrap a value from Nothing (no default value provided with `.default`)", call. = FALSE)
     }

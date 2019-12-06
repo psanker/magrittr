@@ -37,12 +37,8 @@ pipe <- function()
       # return the function itself.
       env[["_fseq"]]
     } else {
-      # evaluate the LHS with maybe monad, if needed
-      if (is_maybe_pipe(pipes[[1L]])) {
-        env[["_lhs"]] <- tryCatch(just(eval(lhs, parent, parent)), error = function(e) nothing(e))
-      } else {
-        env[["_lhs"]] <- eval(lhs, parent, parent)
-      }
+      # evaluate the LHS
+      env[["_lhs"]] <- eval(lhs, parent, parent)
 
       # compute the result by applying the function to the LHS
       result <- withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
@@ -308,7 +304,10 @@ pipe <- function()
 #' @param rhs A function call using the magrittr semantics.
 #'
 #' @examples
-#' # Exemplary use -- loading a file without checking if the file exists
+#' # loading a file without checking if the file exists
 #' file_path %?>%
 #'   read.csv()
+#'
+#' @rdname maybe
+#' @export
 `%?>%` <- pipe()
