@@ -4,7 +4,7 @@
 \alias{unwrap}
 \alias{unwrap.default}
 \alias{unwrap.maybe}
-\title{Unwrap values from Maybe monad context}
+\title{Unwrap values from Maybe context}
 \usage{
 unwrap(x, ...)
 
@@ -14,6 +14,8 @@ unwrap(x, ...)
 }
 \arguments{
 \item{x}{Any R object, usually a Maybe object used during a maybe pipe chain}
+
+\item{...}{Currently unhandled, but present for expansion and S3 compatibility}
 
 \item{.default}{The default value to use if \code{x} is \code{nothing()}. If
 \code{.default} is not defined and \code{x} is \code{nothing()}, an error will be thrown.}

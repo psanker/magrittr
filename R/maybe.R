@@ -66,6 +66,13 @@ nothing <- function(x = NULL, message = NULL)
   result
 }
 
+#' Is an object a Maybe object?
+#'
+#' An S3 method to check if an R object is a Maybe object
+#'
+#' @param x Any R object
+#' @return logical
+#' 
 #' @export
 is.maybe <- function(x) 
 {
@@ -80,6 +87,14 @@ is.maybe <- function(x)
   }
 }
 
+#' Is an object Nothing?
+#'
+#' An S3 method to check if an R object is a Nothing instance
+#' of a Maybe object
+#'
+#' @param x Any R object
+#' @return logical
+#' 
 #' @export
 is.nothing <- function(x)
 {
@@ -115,6 +130,7 @@ print.maybe <- function(x, ...)
 #' @param x Any R object, usually a Maybe object used during a maybe pipe chain
 #' @param .default The default value to use if `x` is `nothing()`. If
 #'   `.default` is not defined and `x` is `nothing()`, an error will be thrown.
+#' @param ... Currently unhandled, but present for expansion and S3 compatibility
 #'
 #' @return The unwrapped value or an error, depending on the function parameters   
 #' 

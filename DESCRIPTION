@@ -27,7 +27,8 @@ Suggests:
     covr,
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+    rlang
 VignetteBuilder: 
     knitr
 ByteCompile: Yes
