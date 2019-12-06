@@ -49,7 +49,10 @@ is.maybe <- function(x)
 
 is_nothing <- function(x)
 {
-  is.maybe(x) && identical(x[["type"]], maybe_types$nothing)
+  if (!is.maybe(x))
+      return(FALSE)
+  
+  identical(x[["type"]], maybe_types$nothing)
 }
 
 print.maybe <- function(x, ...) 
